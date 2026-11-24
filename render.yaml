@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: neuroprenatal-ia
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --workers 1 --bind 0.0.0.0:$PORT app:app
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: DATABASE_PATH
+        value: /var/data/prenatal.sqlite3
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PASSWORD_ADMIN
+        sync: false
+      - key: PASSWORD_NEUROPEDIATRA
+        sync: false
+      - key: PASSWORD_GINECOLOGA
+        sync: false
+      - key: PASSWORD_ADJUDICADOR
+        sync: false
